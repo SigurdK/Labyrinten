@@ -10,7 +10,12 @@ public class SortRute extends Rute {
         return '#';
     }
     @Override
+    void settBlittGatt(){
+        this.blittGaatt = true;
+    }
+
+    @Override
     void gaa(String v){
-        System.out.println("Sort Rute");
+        System.out.println("Du startet på en Sort Rute.");
     }
 }

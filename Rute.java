@@ -41,6 +41,7 @@ abstract class Rute {
     }
 
     abstract void gaa(String v);
+    abstract void settBlittGatt();
 
     public boolean blittGatt(){
         return blittGaatt;
@@ -53,7 +54,6 @@ abstract class Rute {
         System.out.println("vest: "+vest.rad + ","+vest.kolonne);
     }
     public void finnUtvei(String v){
-        Lenkeliste<String> losninger = new Lenkeliste<>();
         gaa(v);
     }
 

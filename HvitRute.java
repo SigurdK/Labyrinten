@@ -10,6 +10,11 @@ public class HvitRute extends Rute {
         return '.';
     }
     @Override
+    void settBlittGatt(){
+        this.blittGaatt = false;
+    }
+
+    @Override
     void gaa(String v){
         this.blittGaatt = true;
 
