@@ -28,6 +28,8 @@ class Oblig5 {
         String[] ord = inn.nextLine().split(" ");
         while (!ord[0].equals("a")) {
 
+            System.out.println(l);
+
             try {
                 int startKol = Integer.parseInt(ord[0]);
                 int startRad = Integer.parseInt(ord[1]);

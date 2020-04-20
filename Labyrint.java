@@ -90,7 +90,7 @@ class Labyrint {
     }
 
     //funksjon for å hente en Rute på en gitt plassen
-    public Rute hentRute(int kolonne,int rad){
+    public Rute hentRute(int rad,int kolonne){
         return array[rad][kolonne];
     }
 
