@@ -38,6 +38,8 @@ class Oblig5 {
                 int startRad = Integer.parseInt(ord[1]);
 
                 Liste<String> utveier = l.finnUtveiFra(startKol, startRad);
+                System.out.println("ANTALL LOSNINGER: " +utveier.stoerrelse());
+                
                 if (utveier.stoerrelse() != 0) {
                     for (String s : utveier) {
                         System.out.println(s);
