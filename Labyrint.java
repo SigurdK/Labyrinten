@@ -73,14 +73,15 @@ class Labyrint {
         return labyrinten;
     }
 
-    /*For testingens del:
+    //For testingens del:
 
     public int hentAntallRader(){
         return antallRader;
     }
+
     public int hentAntallKolonner(){
         return antallKolonner;
-    }*/
+    }
 
     static boolean sjekkOmAapning(int rad, int kolonne){
         if (rad == 0 || kolonne == 0 || rad == (antallRader -1) || kolonne == (antallKolonner-1)){

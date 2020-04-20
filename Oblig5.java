@@ -29,6 +29,8 @@ class Oblig5 {
         while (!ord[0].equals("a")) {
 
             System.out.println("LABYRINTEN:");
+            System.out.println("KOLONNER: "+l.hentAntallKolonner() + "\nRADER: " + l.hentAntallRader());
+
             System.out.println(l);
 
             try {
