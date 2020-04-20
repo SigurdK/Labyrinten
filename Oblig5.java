@@ -27,9 +27,8 @@ class Oblig5 {
         System.out.println("Skriv inn koordinater <kolonne> <rad> ('a' for aa avslutte)");
         String[] ord = inn.nextLine().split(" ");
         while (!ord[0].equals("a")) {
-            System.out.println("LABYRINTEN:");
-            System.out.println(l);
 
+            System.out.println("LABYRINTEN:");
             System.out.println(l);
 
             try {
