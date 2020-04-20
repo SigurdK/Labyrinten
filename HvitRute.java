@@ -7,6 +7,9 @@ public class HvitRute extends Rute {
 
     @Override
     char tilTegn() {
+        if (blittGaatt == true){
+            return '0';
+        }
         return '.';
     }
     @Override
@@ -16,11 +19,10 @@ public class HvitRute extends Rute {
 
     @Override
     void gaa(String v){
-        this.blittGaatt = true;
 
+        this.blittGaatt = true;
         String kordinat = "("+kolonne + ","+rad+")";
-        veien += v + " "+kordinat +" --> ";
-        //System.out.println("("+kolonne + ","+rad+")");
+        veien += v + " "+kordinat +" -->";
 
         if (!nord.blittGatt()){
             nord.gaa(veien);
@@ -34,6 +36,7 @@ public class HvitRute extends Rute {
         if (!vest.blittGatt()){
             vest.gaa(veien);
         }
+        //this.blittGaatt = false;
 
         //System.out.println(veien);
         /*if(nord.blittGatt() && sor.blittGatt() && vest.blittGatt() && ost.blittGatt()){

@@ -75,14 +75,8 @@ class Labyrint {
         }
         return labyrinten;
     }
-    public int hentAntallRader(){
-        return antallRader;
-    }
-    public int hentAntallKolonner(){
-        return antallKolonner;
-    }
 
-    static boolean sjekkOmAapning(int rad, int kolonne){//Kan benytte verdier fra referanselabyrinten.Putt funkjson i Labyrint
+    static boolean sjekkOmAapning(int rad, int kolonne){
         if (rad == 0 || kolonne == 0 || rad == (antallRader -1) || kolonne == (antallKolonner-1)){
             return true;
         }
@@ -90,7 +84,7 @@ class Labyrint {
     }
 
     //funksjon for å hente en Rute på en gitt plassen
-    public Rute hentRute(int kolonne,int rad){
+    public Rute hentRute(int rad,int kolonne){
         return array[rad][kolonne];
     }
     public void leggTilUtvei(String utvei) {
@@ -100,8 +94,7 @@ class Labyrint {
         this.hentRute(k,r).gaa("START ");
 
         Lenkeliste<String> temp = new Lenkeliste<>();
-
-        for (int i = 0 ; i < losninger.stoerrelse() ; i++){
+        for (String losning : losninger){
             String a = losninger.fjern();
             temp.leggTil(a);
         }
