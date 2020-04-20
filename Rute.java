@@ -9,6 +9,7 @@ abstract class Rute {
     Rute sor = null;
     Rute ost = null;
     Rute vest = null;
+    Rute forrige = null;
 
     boolean blittGaatt = false;
     String veien = "";
@@ -36,8 +37,15 @@ abstract class Rute {
     public void settOst(Rute r){
         ost = r;
     }
+    public void settForrige(Rute r){
+        forrige = r;
+    }
+    public Rute hentForrige(){
+        return this.forrige;
+    }
 
-    abstract void gaa(String v);
+
+    abstract void gaa(Rute forrige, String v);
     abstract void settBlittGatt();
     public void settVeien(){
         veien = "";
@@ -53,7 +61,7 @@ abstract class Rute {
         System.out.println("ost: "+ost.rad + ","+ost.kolonne);
         System.out.println("vest: "+vest.rad + ","+vest.kolonne);
     }
-    public void finnUtvei(String v){
-        gaa(v);
+    public void finnUtvei(Rute forrige, String v){
+        gaa(forrige, v);
     }
 }

@@ -15,7 +15,7 @@ public class SortRute extends Rute {
     }
 
     @Override
-    void gaa(String v){
+    void gaa(Rute r,String v){
         System.out.println("Du startet på en Sort Rute.");
     }
 }
