@@ -100,12 +100,8 @@ class Labyrint {
         //Lager en tempListe som returneres, mens static listen resettes.
         Lenkeliste<String> temp = new Lenkeliste<>();
         for (String losning : losninger){
-<<<<<<< HEAD
-            String a = losninger.fjern();
-=======
             String a = losning;
             losninger.fjern();
->>>>>>> asyklisk
             temp.leggTil(a);
         }
         //resetter alle rutene, og rutenes instanser.
