@@ -30,6 +30,8 @@ class Oblig5 {
             System.out.println("LABYRINTEN:");
             System.out.println(l);
 
+            System.out.println(l);
+
             try {
                 int startKol = Integer.parseInt(ord[0]);
                 int startRad = Integer.parseInt(ord[1]);

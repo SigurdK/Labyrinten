@@ -22,7 +22,7 @@ public class HvitRute extends Rute {
 
         this.blittGaatt = true;
         String kordinat = "("+kolonne + ","+rad+")";
-        veien += v + " "+kordinat +" -->";
+        veien += v + " "+kordinat +" --> ";
 
         if (!nord.blittGatt()){
             nord.gaa(veien);
@@ -37,12 +37,6 @@ public class HvitRute extends Rute {
             vest.gaa(veien);
         }
         //this.blittGaatt = false;
-
-        //System.out.println(veien);
-        /*if(nord.blittGatt() && sor.blittGatt() && vest.blittGatt() && ost.blittGatt()){
-            System.out.println("Jeg er en blindvei!"+"("+kolonne + ","+rad+")");
-            return;
-        }*/
 
     }
 }

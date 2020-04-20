@@ -1,7 +1,4 @@
-
-
 abstract class Rute {
-
     //referasne til labyrint objektet blir satt i les fra fil
     Labyrint labyrint;
     //sette sin rutens posisjon i labyrinten.
@@ -42,6 +39,9 @@ abstract class Rute {
 
     abstract void gaa(String v);
     abstract void settBlittGatt();
+    public void settVeien(){
+        veien = "";
+    }
 
     public boolean blittGatt(){
         return blittGaatt;
@@ -56,5 +56,4 @@ abstract class Rute {
     public void finnUtvei(String v){
         gaa(v);
     }
-
 }

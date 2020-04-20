@@ -5,15 +5,12 @@ class Labyrint {
     static Lenkeliste<String> losninger = new Lenkeliste<>();
     static int antallRader;
     static int antallKolonner;
-    static Rute[][] array;
-    // blir sikkert element av type rute etterhvert
-     //(Kolonne ,rad)
+    Rute[][] array;
 
     private Labyrint (int rader, int kolonner, Rute[][] a){ //Tar inn array av ruteobjekter?
         antallRader = rader;
         antallKolonner = kolonner;
         array = a;
-
     }
 
     static Labyrint leseFil(File filen) throws Exception{
@@ -76,6 +73,15 @@ class Labyrint {
         return labyrinten;
     }
 
+    /*For testingens del:
+
+    public int hentAntallRader(){
+        return antallRader;
+    }
+    public int hentAntallKolonner(){
+        return antallKolonner;
+    }*/
+
     static boolean sjekkOmAapning(int rad, int kolonne){
         if (rad == 0 || kolonne == 0 || rad == (antallRader -1) || kolonne == (antallKolonner-1)){
             return true;
@@ -87,50 +93,36 @@ class Labyrint {
     public Rute hentRute(int rad,int kolonne){
         return array[rad][kolonne];
     }
-    public void leggTilUtvei(String utvei) {
-        losninger.leggTil(utvei);
-    }
-    public Lenkeliste<String> finnUtveiFra(int k, int r){
-        this.hentRute(k,r).gaa("START ");
 
+    public Lenkeliste<String> finnUtveiFra(int k, int r){
+        //Kjører finnUtvei(som starter gaa()) fra den angitte posisjonen(da starter rekursive løsningen)
+        this.hentRute(k,r).finnUtvei("START ");
+        //Lager en tempListe som returneres, mens static listen resettes.
         Lenkeliste<String> temp = new Lenkeliste<>();
         for (String losning : losninger){
+<<<<<<< HEAD
             String a = losninger.fjern();
+=======
+            String a = losning;
+            losninger.fjern();
+>>>>>>> asyklisk
             temp.leggTil(a);
         }
-
-        //maa resette alle rutene:
+        //resetter alle rutene, og rutenes instanser.
         for(int ra = 0; ra < antallRader ; ra ++){
             for (int ko = 0 ; ko < antallKolonner ; ko ++){
-                System.out.println(this.array[ko][ra]);
                 this.array[ra][ko].settBlittGatt();
+                this.array[ra][ko].settVeien();
             }
         }
-
-
-        /*
-        for (String e : losninger){
-            e.fjern();
-        }*/
         return temp;
-        /*int s = losninger.stoerrelse();
-        if (losninger.stoerrelse() == 0){
-            System.out.println("Kan ikke finne noen åninger fra det gitte startpunkt.");
-        }else{
-            for (int i = 0 ; i < s ; i++){
-                System.out.println("Losning nummer "+(i+1)+":");
-                System.out.println(losninger.fjern());
-            }
-        }*/
     }
-
     //ønsker å itterer gjennom 2d arrayen og printe ut alle elementer
     public String toString(){
         String utskrift = "";
         for (int i = 0 ; i < antallRader ; i++){
-
             for (int j = 0 ; j <antallKolonner ; j++){
-                utskrift += array[i][j].tilTegn(); //må hente symbolene til ruteobjektene det gjelder
+                utskrift += array[i][j].tilTegn();
             }
             utskrift += "\n";
         }

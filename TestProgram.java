@@ -8,7 +8,7 @@ class TestProgram {
         Labyrint labyrint = Labyrint.leseFil(f); //Oppretter ett labyrintObjekt.
         //System.out.println("Antall Rader: "+labyrint.hentAntallRader());
         //System.out.println("Antall Kolonner: "+labyrint.hentAntallKolonner());
-        //System.out.println(labyrint);
+        System.out.println(labyrint);
         //Kolonne,rad
         //labyrint.hentRute(4,1).finnUtvei("START ");
         System.out.println(labyrint.finnUtveiFra(1,1));
