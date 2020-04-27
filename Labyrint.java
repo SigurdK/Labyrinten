@@ -107,7 +107,6 @@ class Labyrint {
 
         this.hentRute(r,k).finnUtvei(this.hentRute(r,k),"START ");
 
-
         //Lager en tempListe som returneres, mens static listen resettes.
         Lenkeliste<String> temp = new Lenkeliste<>();
         for (String losning : losninger){
@@ -151,19 +150,21 @@ class Monitor {
 
     public void leggTilLosning(String l, int r){
         laas.lock();
-        //System.out.println("antall TRAADER: " + r);
         try{
             antallFerdigeSubtrader ++;
             losningene.leggTil(l);
 
-            if(losningene.stoerrelse() == 2){
+            //For sener efinne sykliske med tråder.
+            /*if(losningene.stoerrelse() == 2){
                 alleFerdige.signal();
-            }
+            }*/
+
         }finally {
             laas.unlock();
         }
     }
 
+    //For senere finne sykliske med flere tråder:
     public void vent() {
        laas.lock();
        try {

@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class HvitRute extends Rute {//implements Runnable
 
     public class VeiViseren implements Runnable {
@@ -10,16 +12,13 @@ public class HvitRute extends Rute {//implements Runnable
             this.vei = v;
             this.forrige = f;
         }
+        
         public void run(){
             try{
                 rute.gaa(forrige, this.vei);
-                //System.out.println("Jeg ER en ny traad og har gått hele gaa() nå!");
             }catch (Exception e) {}
         }
-
     }
-
-
 
     HvitRute(int kolonne, int rad){
         super(kolonne,rad);
@@ -66,84 +65,82 @@ public class HvitRute extends Rute {//implements Runnable
             System.out.println("feil");
         }
 
+        LinkedList<Thread> traadene = new LinkedList<Thread>();
         this.blittGaatt = true;
         this.settForrige(forrige);
         String kordinat = "("+kolonne + ","+rad+") -->";
         int antall = this.antallUtveier();
+
+
 
         if (!nord.blittGatt() && this.hentForrige() != this.nord){//og er flere veier? da starte ny tråd?else gaa)
             //Sette nord sin forrige til denne
             if (antall>1){
                 traader +=1;
                 antall-=1;
+
                 Runnable run = new VeiViseren(this.nord,this, v + kordinat);
                 Thread nyVeiviser = new Thread(run);
                 nyVeiviser.start();
-                try{
-                    nyVeiviser.join();
-                } catch(Exception e){
-                    System.out.println("");
-                }
-
+                traadene.add(nyVeiviser);
             }else{
                 nord.gaa(this,v + kordinat);
             }
-
         }
         if (!sor.blittGatt() && this.hentForrige() != this.sor){
             if (antall>1){
                 traader +=1;
                 antall-=1;
+
                 Runnable run = new VeiViseren(this.sor,this, v + kordinat);
                 Thread nyVeiviser = new Thread(run);
                 nyVeiviser.start();
-                try{
-                    nyVeiviser.join();
-                } catch(Exception e){
-                    System.out.println("");
-                }
+                traadene.add(nyVeiviser);
+
             }else{
                 sor.gaa(this,v + kordinat);
-
             }
         }
         if (!ost.blittGatt() && this.hentForrige() != this.ost){
             if (antall>1){
                 traader +=1;
                 antall-=1;
+
                 Runnable run = new VeiViseren(this.ost,this, v + kordinat);
                 Thread nyVeiviser = new Thread(run);
                 nyVeiviser.start();
-                try{
-                    nyVeiviser.join();
-                } catch(Exception e){
-                    System.out.println("");
-                }
+                traadene.add(nyVeiviser);
 
             }else{
                 ost.gaa(this,v + kordinat);
             }
         }
+
         if (!vest.blittGatt() && this.hentForrige() != this.vest){
             if (antall>1){
                 traader +=1;
                 antall-=1;
+
                 Runnable run = new VeiViseren(this.vest,this, v + kordinat);
                 Thread nyVeiviser = new Thread(run);
                 nyVeiviser.start();
-                try{
-                    nyVeiviser.join();
-                } catch(Exception e){
-                    System.out.println("");
-                }
+                traadene.add(nyVeiviser);
 
             }else{
                 vest.gaa(this,v + kordinat);
             }
         }
-        this.blittGaatt = false;
-        this.hentForrige().settForrige(this);
 
+        //Dette er her for å eventuelt klare løse sykliske labyrinter også med flere tråder..
+        //this.blittGaatt = false;
+        //this.hentForrige().settForrige(this);
 
+        for(int i = 0; i<traadene.size(); i++){
+            try{
+                traadene.get(i).join();
+            }catch(Exception ex){
+
+            }
+        }
     }
 }
