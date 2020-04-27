@@ -12,7 +12,7 @@ public class HvitRute extends Rute {//implements Runnable
             this.vei = v;
             this.forrige = f;
         }
-        
+
         public void run(){
             try{
                 rute.gaa(forrige, this.vei);
@@ -57,10 +57,14 @@ public class HvitRute extends Rute {//implements Runnable
 
     void gaa(Rute forrige, String v){
         //koden under for å se hvordan den går i labyrinten.
+        System.out.println(labyrint);
         try {
-            System.out.println("traader opprettet: "+ traader);
-            System.out.println(labyrint);
-            Thread.sleep(200);
+
+            /*if (Thread.currentThread().getName().equals("main")){
+                System.out.println("traader opprettet: "+ traader);
+            }*/
+            Thread.sleep(170);
+
         }catch(InterruptedException e){
             System.out.println("feil");
         }
@@ -130,11 +134,6 @@ public class HvitRute extends Rute {//implements Runnable
                 vest.gaa(this,v + kordinat);
             }
         }
-
-        //Dette er her for å eventuelt klare løse sykliske labyrinter også med flere tråder..
-        //this.blittGaatt = false;
-        //this.hentForrige().settForrige(this);
-
         for(int i = 0; i<traadene.size(); i++){
             try{
                 traadene.get(i).join();
@@ -142,5 +141,8 @@ public class HvitRute extends Rute {//implements Runnable
 
             }
         }
+        //Dette er her for å eventuelt klare løse sykliske labyrinter.
+        //this.blittGaatt = false;
+        //this.hentForrige().settForrige(this);
     }
 }

@@ -112,6 +112,7 @@ class Labyrint {
         for (String losning : losninger){
             temp.leggTil(losninger.fjern());
         }
+        System.out.println("traader opprettet totalt: "+ this.hentRute(r,k).traader);
         //resetter alle rutene, og rutenes instanser.
         for(int ra = 0; ra < antallRader ; ra ++){
             for (int ko = 0 ; ko < antallKolonner ; ko ++){
@@ -126,12 +127,14 @@ class Labyrint {
     //ønsker å itterer gjennom 2d arrayen og printe ut alle elementer
     public String toString(){
         String utskrift = "";
+
         for (int i = 0 ; i < antallRader ; i++){
             for (int j = 0 ; j <antallKolonner ; j++){
                 utskrift += array[i][j].tilTegn();
             }
             utskrift += "\n";
         }
+
         return utskrift;
     }
 }
