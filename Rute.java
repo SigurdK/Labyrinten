@@ -16,6 +16,7 @@ abstract class Rute {
     boolean blittGaatt;
     String veien = "";
     boolean flereUtveier = false;
+    static int traader = 1;
 
     Rute(int k, int r){
         kolonne = k;
@@ -68,7 +69,7 @@ abstract class Rute {
     }
     public void finnUtvei(Rute forrige, String v){
         gaa(forrige, v);
-        labyrint.monitor.vent();
+        
 
 
 

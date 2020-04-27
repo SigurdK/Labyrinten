@@ -13,12 +13,13 @@ public class HvitRute extends Rute {//implements Runnable
         public void run(){
             try{
                 rute.gaa(forrige, this.vei);
-                System.out.println("Jeg ER en ny traad og har gått hele gaa() nå!");
+                //System.out.println("Jeg ER en ny traad og har gått hele gaa() nå!");
             }catch (Exception e) {}
         }
+
     }
 
-    static int traader = 1;
+
 
     HvitRute(int kolonne, int rad){
         super(kolonne,rad);
@@ -55,13 +56,9 @@ public class HvitRute extends Rute {//implements Runnable
     }
     @Override
 
-    //CountDownLatch minBarriere = new CountDownLatch(antall traader);
-    //minBarriere.countDown() når resultat funnet;
-    //minBarriere.await(); barrieren venter
     void gaa(Rute forrige, String v){
         //koden under for å se hvordan den går i labyrinten.
         try {
-            //System.out.println("flere veier: "+ this.antallUtveier());
             System.out.println("traader opprettet: "+ traader);
             System.out.println(labyrint);
             Thread.sleep(200);
@@ -82,6 +79,11 @@ public class HvitRute extends Rute {//implements Runnable
                 Runnable run = new VeiViseren(this.nord,this, v + kordinat);
                 Thread nyVeiviser = new Thread(run);
                 nyVeiviser.start();
+                try{
+                    nyVeiviser.join();
+                } catch(Exception e){
+                    System.out.println("");
+                }
 
             }else{
                 nord.gaa(this,v + kordinat);
@@ -95,7 +97,11 @@ public class HvitRute extends Rute {//implements Runnable
                 Runnable run = new VeiViseren(this.sor,this, v + kordinat);
                 Thread nyVeiviser = new Thread(run);
                 nyVeiviser.start();
-
+                try{
+                    nyVeiviser.join();
+                } catch(Exception e){
+                    System.out.println("");
+                }
             }else{
                 sor.gaa(this,v + kordinat);
 
@@ -108,6 +114,11 @@ public class HvitRute extends Rute {//implements Runnable
                 Runnable run = new VeiViseren(this.ost,this, v + kordinat);
                 Thread nyVeiviser = new Thread(run);
                 nyVeiviser.start();
+                try{
+                    nyVeiviser.join();
+                } catch(Exception e){
+                    System.out.println("");
+                }
 
             }else{
                 ost.gaa(this,v + kordinat);
@@ -120,6 +131,11 @@ public class HvitRute extends Rute {//implements Runnable
                 Runnable run = new VeiViseren(this.vest,this, v + kordinat);
                 Thread nyVeiviser = new Thread(run);
                 nyVeiviser.start();
+                try{
+                    nyVeiviser.join();
+                } catch(Exception e){
+                    System.out.println("");
+                }
 
             }else{
                 vest.gaa(this,v + kordinat);
@@ -127,5 +143,7 @@ public class HvitRute extends Rute {//implements Runnable
         }
         this.blittGaatt = false;
         this.hentForrige().settForrige(this);
+
+
     }
 }

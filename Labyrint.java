@@ -81,28 +81,6 @@ class Labyrint {
         return labyrinten;
     }
 
-    //MONITOR?
-    /*public void leggTilLosning(String l, int r){
-        laas.lock();
-        System.out.println("Rett før WAIT");
-        if (r>=2){
-            try{
-                laas.wait();
-            }catch(InterruptedException e){}
-
-        }
-        /*try{
-            nyVeiviser.stop();
-        } catch(Exception e){
-            System.out.println("");
-        }
-        System.out.println("antall TRAADER: " + r);//her er det 2 tråder, og jeg vil vente til kun 1..
-        try{
-            losninger.leggTil(l);
-        }finally {
-            laas.unlock();
-        }
-    }*/
     //For testingens del:
     public int hentAntallRader(){
         return antallRader;
@@ -140,8 +118,10 @@ class Labyrint {
             for (int ko = 0 ; ko < antallKolonner ; ko ++){
                 this.array[ra][ko].settBlittGatt();
                 this.array[ra][ko].settVeien();
+                this.array[ra][ko].traader = 1;
             }
         }
+        monitor.reset();
         return temp;
     }
     //ønsker å itterer gjennom 2d arrayen og printe ut alle elementer
@@ -171,11 +151,12 @@ class Monitor {
 
     public void leggTilLosning(String l, int r){
         laas.lock();
-        System.out.println("antall TRAADER: " + r);//her er det 2 tråder, og jeg vil vente til kun 1..
+        //System.out.println("antall TRAADER: " + r);
         try{
             antallFerdigeSubtrader ++;
             losningene.leggTil(l);
-            if(antallFerdigeSubtrader == 2){
+
+            if(losningene.stoerrelse() == 2){
                 alleFerdige.signal();
             }
         }finally {
@@ -186,7 +167,7 @@ class Monitor {
     public void vent() {
        laas.lock();
        try {
-            while (antallFerdigeSubtrader != 2) {
+            while (losningene.stoerrelse() != 2) {
 	            alleFerdige.await();
                 System.out.println(antallFerdigeSubtrader + " ferdige subtrader ");
             }
@@ -194,5 +175,10 @@ class Monitor {
         catch (InterruptedException e)
 		        { System.out.println(" Uventet avbrudd ");  System.exit(0); }
         finally { laas.unlock();  }
+    }
+    public void reset(){
+        for (String s : losningene){
+            losningene.fjern();
+        }
     }
 }

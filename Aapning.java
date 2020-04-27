@@ -45,7 +45,7 @@ public class Aapning extends HvitRute {
         this.settForrige(forrige);
         String apning = v+"Jeg er en apning! ("+kolonne+","+ rad+")";
         //legger til losningen via monitorens LeggTilLosning metode:
-        System.out.println("__ÅPNING__");
+        
         labyrint.monitor.leggTilLosning(apning, this.hentTraader());
         this.blittGaatt = false;
         this.hentForrige().settForrige(this);
