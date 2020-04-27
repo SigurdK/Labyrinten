@@ -31,7 +31,7 @@ class Oblig5 {
             System.out.println("LABYRINTEN:");
             System.out.println("KOLONNER: "+l.hentAntallKolonner() + "\nRADER: " + l.hentAntallRader());
 
-            System.out.println(l);
+            //System.out.println(l);
 
             try {
                 int startKol = Integer.parseInt(ord[0]);
@@ -39,7 +39,7 @@ class Oblig5 {
 
                 Liste<String> utveier = l.finnUtveiFra(startKol, startRad);
                 System.out.println("ANTALL LOSNINGER: " +utveier.stoerrelse());
-                
+
                 if (utveier.stoerrelse() != 0) {
                     for (String s : utveier) {
                         System.out.println(s);

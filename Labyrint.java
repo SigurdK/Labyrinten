@@ -1,16 +1,25 @@
 import java.io.File;
 import java.util.Scanner;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 class Labyrint {
+
+    //private Lock laas = new ReentrantLock();
+
     static Lenkeliste<String> losninger = new Lenkeliste<>();
     static int antallRader;
     static int antallKolonner;
     Rute[][] array;
+    Monitor monitor;
 
     private Labyrint (int rader, int kolonner, Rute[][] a){ //Tar inn array av ruteobjekter?
         antallRader = rader;
         antallKolonner = kolonner;
         array = a;
+        this.monitor = new Monitor(losninger);
     }
 
     static Labyrint leseFil(File filen) throws Exception{
@@ -46,7 +55,6 @@ class Labyrint {
             rad ++;
             kolonne = 0;
         }
-
         //Oppretter Labyrint objektet
         Labyrint labyrinten = new Labyrint(antallRader,antallKolonner,array);
 
@@ -73,12 +81,32 @@ class Labyrint {
         return labyrinten;
     }
 
-    //For testingens del:
+    //MONITOR?
+    /*public void leggTilLosning(String l, int r){
+        laas.lock();
+        System.out.println("Rett før WAIT");
+        if (r>=2){
+            try{
+                laas.wait();
+            }catch(InterruptedException e){}
 
+        }
+        /*try{
+            nyVeiviser.stop();
+        } catch(Exception e){
+            System.out.println("");
+        }
+        System.out.println("antall TRAADER: " + r);//her er det 2 tråder, og jeg vil vente til kun 1..
+        try{
+            losninger.leggTil(l);
+        }finally {
+            laas.unlock();
+        }
+    }*/
+    //For testingens del:
     public int hentAntallRader(){
         return antallRader;
     }
-
     public int hentAntallKolonner(){
         return antallKolonner;
     }
@@ -100,12 +128,12 @@ class Labyrint {
         //setter her forrige ruten, som start ruten og kaller gaa
 
         this.hentRute(r,k).finnUtvei(this.hentRute(r,k),"START ");
+
+
         //Lager en tempListe som returneres, mens static listen resettes.
         Lenkeliste<String> temp = new Lenkeliste<>();
         for (String losning : losninger){
-            String a = losning;
-            losninger.fjern();
-            temp.leggTil(a);
+            temp.leggTil(losninger.fjern());
         }
         //resetter alle rutene, og rutenes instanser.
         for(int ra = 0; ra < antallRader ; ra ++){
@@ -126,5 +154,45 @@ class Labyrint {
             utskrift += "\n";
         }
         return utskrift;
+    }
+}
+
+class Monitor {
+
+    private Lock laas = new ReentrantLock();
+    Lenkeliste<String> losningene;
+
+    private Condition alleFerdige = laas.newCondition();
+    int antallFerdigeSubtrader = 0;
+
+    Monitor(Lenkeliste<String> l){
+        losningene = l;
+    }
+
+    public void leggTilLosning(String l, int r){
+        laas.lock();
+        System.out.println("antall TRAADER: " + r);//her er det 2 tråder, og jeg vil vente til kun 1..
+        try{
+            antallFerdigeSubtrader ++;
+            losningene.leggTil(l);
+            if(antallFerdigeSubtrader == 2){
+                alleFerdige.signal();
+            }
+        }finally {
+            laas.unlock();
+        }
+    }
+
+    public void vent() {
+       laas.lock();
+       try {
+            while (antallFerdigeSubtrader != 2) {
+	            alleFerdige.await();
+                System.out.println(antallFerdigeSubtrader + " ferdige subtrader ");
+            }
+        }
+        catch (InterruptedException e)
+		        { System.out.println(" Uventet avbrudd ");  System.exit(0); }
+        finally { laas.unlock();  }
     }
 }

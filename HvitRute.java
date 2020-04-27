@@ -1,10 +1,31 @@
-public class HvitRute extends Rute {
+public class HvitRute extends Rute {//implements Runnable
+
+    public class VeiViseren implements Runnable {
+        Rute rute;
+        String vei;
+        Rute forrige;
+
+        VeiViseren(Rute r,Rute f, String v){
+            this.rute = r;
+            this.vei = v;
+            this.forrige = f;
+        }
+        public void run(){
+            try{
+                rute.gaa(forrige, this.vei);
+                System.out.println("Jeg ER en ny traad og har gått hele gaa() nå!");
+            }catch (Exception e) {}
+        }
+    }
+
+    static int traader = 1;
 
     HvitRute(int kolonne, int rad){
         super(kolonne,rad);
-
     }
-
+    public int hentTraader(){
+        return traader;
+    }
     @Override
     char tilTegn() {
         if (blittGaatt == true){
@@ -16,15 +37,34 @@ public class HvitRute extends Rute {
     void settBlittGatt(){
         this.blittGaatt = false;
     }
-
+    int antallUtveier(){
+        int teller = 0;
+        if (nord.blittGaatt == false){
+            teller+= 1;
+        }
+        if (sor.blittGaatt == false){
+            teller+= 1;
+        }
+        if (ost.blittGaatt == false){
+            teller+= 1;
+        }
+        if (vest.blittGaatt == false){
+            teller+= 1;
+        }
+        return teller;
+    }
     @Override
-    void gaa(Rute forrige, String v){
 
+    //CountDownLatch minBarriere = new CountDownLatch(antall traader);
+    //minBarriere.countDown() når resultat funnet;
+    //minBarriere.await(); barrieren venter
+    void gaa(Rute forrige, String v){
         //koden under for å se hvordan den går i labyrinten.
         try {
+            //System.out.println("flere veier: "+ this.antallUtveier());
+            System.out.println("traader opprettet: "+ traader);
             System.out.println(labyrint);
-            //System.out.println("STRINGEN ER: "+v);
-            Thread.sleep(100);
+            Thread.sleep(200);
         }catch(InterruptedException e){
             System.out.println("feil");
         }
@@ -32,27 +72,60 @@ public class HvitRute extends Rute {
         this.blittGaatt = true;
         this.settForrige(forrige);
         String kordinat = "("+kolonne + ","+rad+") -->";
-        //veien += v + " "+kordinat +" --> ";
-        //Lage en else if. og ha til slutt dersom alle rundt er gått , så backtrack eventuelt om det er en åpning.
-        //når koden kommer til en åpning lagres ruten og koden backtracker.
+        int antall = this.antallUtveier();
 
-        if (!nord.blittGatt() && this.hentForrige() != this.nord){
+        if (!nord.blittGatt() && this.hentForrige() != this.nord){//og er flere veier? da starte ny tråd?else gaa)
             //Sette nord sin forrige til denne
-            nord.gaa(this,v + kordinat);
+            if (antall>1){
+                traader +=1;
+                antall-=1;
+                Runnable run = new VeiViseren(this.nord,this, v + kordinat);
+                Thread nyVeiviser = new Thread(run);
+                nyVeiviser.start();
+
+            }else{
+                nord.gaa(this,v + kordinat);
+            }
+
         }
         if (!sor.blittGatt() && this.hentForrige() != this.sor){
-            sor.gaa(this,v + kordinat);
+            if (antall>1){
+                traader +=1;
+                antall-=1;
+                Runnable run = new VeiViseren(this.sor,this, v + kordinat);
+                Thread nyVeiviser = new Thread(run);
+                nyVeiviser.start();
+
+            }else{
+                sor.gaa(this,v + kordinat);
+
+            }
         }
         if (!ost.blittGatt() && this.hentForrige() != this.ost){
-            ost.gaa(this,v + kordinat);
+            if (antall>1){
+                traader +=1;
+                antall-=1;
+                Runnable run = new VeiViseren(this.ost,this, v + kordinat);
+                Thread nyVeiviser = new Thread(run);
+                nyVeiviser.start();
+
+            }else{
+                ost.gaa(this,v + kordinat);
+            }
         }
         if (!vest.blittGatt() && this.hentForrige() != this.vest){
-            vest.gaa(this,v + kordinat);
-        }
-        //veien = "";
+            if (antall>1){
+                traader +=1;
+                antall-=1;
+                Runnable run = new VeiViseren(this.vest,this, v + kordinat);
+                Thread nyVeiviser = new Thread(run);
+                nyVeiviser.start();
 
+            }else{
+                vest.gaa(this,v + kordinat);
+            }
+        }
         this.blittGaatt = false;
         this.hentForrige().settForrige(this);
-
     }
 }

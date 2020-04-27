@@ -1,3 +1,5 @@
+import java.util.*;
+
 abstract class Rute {
     //referasne til labyrint objektet blir satt i les fra fil
     Labyrint labyrint;
@@ -11,8 +13,9 @@ abstract class Rute {
     Rute vest = null;
     Rute forrige = null;
 
-    boolean blittGaatt = false;
+    boolean blittGaatt;
     String veien = "";
+    boolean flereUtveier = false;
 
     Rute(int k, int r){
         kolonne = k;
@@ -47,6 +50,7 @@ abstract class Rute {
 
     abstract void gaa(Rute forrige, String v);
     abstract void settBlittGatt();
+
     public void settVeien(){
         veien = "";
     }
@@ -54,6 +58,7 @@ abstract class Rute {
     public boolean blittGatt(){
         return blittGaatt;
     }
+
     //En testMetode for å sjekke om sider er tileget riktig.
     public void printSider(){
         System.out.println("nord: "+nord.rad + ","+nord.kolonne);
@@ -63,5 +68,9 @@ abstract class Rute {
     }
     public void finnUtvei(Rute forrige, String v){
         gaa(forrige, v);
+        labyrint.monitor.vent();
+
+
+
     }
 }
