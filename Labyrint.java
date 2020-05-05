@@ -7,8 +7,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 class Labyrint {
 
-    //private Lock laas = new ReentrantLock();
-
     static Lenkeliste<String> losninger = new Lenkeliste<>();
     static int antallRader;
     static int antallKolonner;
@@ -105,14 +103,14 @@ class Labyrint {
         //Kjører finnUtvei(som starter gaa()) fra den angitte posisjonen(da starter rekursive løsningen)
         //setter her forrige ruten, som start ruten og kaller gaa
 
-        this.hentRute(r,k).finnUtvei(this.hentRute(r,k),"START ");
+        this.hentRute(r,k).finnUtvei(this.hentRute(r,k),"");
 
         //Lager en tempListe som returneres, mens static listen resettes.
         Lenkeliste<String> temp = new Lenkeliste<>();
         for (String losning : losninger){
             temp.leggTil(losninger.fjern());
         }
-        System.out.println("traader opprettet totalt: "+ this.hentRute(r,k).traader);
+        //System.out.println("traader opprettet totalt: "+ this.hentRute(r,k).traader);
         //resetter alle rutene, og rutenes instanser.
         for(int ra = 0; ra < antallRader ; ra ++){
             for (int ko = 0 ; ko < antallKolonner ; ko ++){
@@ -134,10 +132,25 @@ class Labyrint {
             }
             utskrift += "\n";
         }
-
         return utskrift;
     }
+
+    //Metode for å gjøre løsningn om til et boolean rutenett:
+    static boolean[][] losningStringTilTabell(String losningString, int bredde, int hoyde) {
+        boolean[][] losning = new boolean[hoyde][bredde];
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile("\\(([0-9]+),([0-9]+)\\)");
+        java.util.regex.Matcher m = p.matcher(losningString.replaceAll("\\s",""));
+        while (m.find()) {
+            int x = Integer.parseInt(m.group(1));
+            int y = Integer.parseInt(m.group(2));
+            losning[y][x] = true;
+        }
+        return losning;
+    }
 }
+
+
+
 
 class Monitor {
 

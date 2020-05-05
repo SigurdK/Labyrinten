@@ -1,6 +1,10 @@
 import java.util.*;
 
-abstract class Rute {
+import javafx.scene.control.Button;
+import javafx.scene.text.Font;
+import javafx.event.*;
+
+abstract class Rute extends Button{
     //referasne til labyrint objektet blir satt i les fra fil
     Labyrint labyrint;
     //sette sin rutens posisjon i labyrinten.
@@ -48,9 +52,13 @@ abstract class Rute {
         return this.forrige;
     }
 
-
     abstract void gaa(Rute forrige, String v);
     abstract void settBlittGatt();
+    abstract void settMerke();
+
+    void settLosningMerke(){
+        setStyle("-fx-background-color: #FF6347");
+    }
 
     public void settVeien(){
         veien = "";
@@ -69,9 +77,5 @@ abstract class Rute {
     }
     public void finnUtvei(Rute forrige, String v){
         gaa(forrige, v);
-        
-
-
-
     }
 }

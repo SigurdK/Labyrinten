@@ -22,6 +22,8 @@ public class HvitRute extends Rute {//implements Runnable
 
     HvitRute(int kolonne, int rad){
         super(kolonne,rad);
+        //setter rutens farge som hvit når den opprettes
+        setStyle("-fx-background-color: #999999");
     }
     public int hentTraader(){
         return traader;
@@ -53,36 +55,41 @@ public class HvitRute extends Rute {//implements Runnable
         }
         return teller;
     }
-    @Override
 
+/*
+OPPGAVE:
+Hva skjer om den gamle tråden først går videre til neste rute og så etterpå starter opp nye tråder?
+
+Da det benyttes rekursjon vil det ikke være ideelt å starte en ny tråd som skal gå en annen retning etter at den gamle tråden har gått videre til neste rute.
+dersom en ny tråd startes etter at den første tråden har gått videre, vil den nye tråden vente på hovedtråden. hovedtråden vil vel fullføre hele sin vei, før den nye tråden i det hele tatt får startet på sin vei.
+
+*/
+    @Override
     void gaa(Rute forrige, String v){
         //koden under for å se hvordan den går i labyrinten.
+/*
         System.out.println(labyrint);
         try {
-
-            /*if (Thread.currentThread().getName().equals("main")){
-                System.out.println("traader opprettet: "+ traader);
-            }*/
             Thread.sleep(170);
-
         }catch(InterruptedException e){
             System.out.println("feil");
         }
-
+*/
+        //benytter en liste for å holde styr på trådene som er opprettet (og ha dem i riktig scoop)
         LinkedList<Thread> traadene = new LinkedList<Thread>();
         this.blittGaatt = true;
         this.settForrige(forrige);
-        String kordinat = "("+kolonne + ","+rad+") -->";
+        String kordinat = "("+kolonne + ", "+rad+") --> ";
+
+        //en variable for å avgjøre om det skal opprettes flere tråder fra den nåværende ruten
         int antall = this.antallUtveier();
 
-
-
-        if (!nord.blittGatt() && this.hentForrige() != this.nord){//og er flere veier? da starte ny tråd?else gaa)
-            //Sette nord sin forrige til denne
+        if (!nord.blittGatt() && this.hentForrige() != this.nord){
+            //hvis er flere veier? (antall) da starte ny tråd, else gaa() )
             if (antall>1){
                 traader +=1;
                 antall-=1;
-
+                //Opretter den nye tråden, starter den og legger den i traad-listen.
                 Runnable run = new VeiViseren(this.nord,this, v + kordinat);
                 Thread nyVeiviser = new Thread(run);
                 nyVeiviser.start();
@@ -134,6 +141,7 @@ public class HvitRute extends Rute {//implements Runnable
                 vest.gaa(this,v + kordinat);
             }
         }
+        //Looper gjennom listen med tråder og joiner den aktuelle
         for(int i = 0; i<traadene.size(); i++){
             try{
                 traadene.get(i).join();
@@ -144,5 +152,15 @@ public class HvitRute extends Rute {//implements Runnable
         //Dette er her for å eventuelt klare løse sykliske labyrinter.
         //this.blittGaatt = false;
         //this.hentForrige().settForrige(this);
+    }
+
+    @Override
+    void settMerke() {
+        if (!blittGaatt){
+            setStyle("-fx-background-color: #999999");
+        }else {
+            setStyle("-fx-background-color: #FF6347");
+        }
+
     }
 }
