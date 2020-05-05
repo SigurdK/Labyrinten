@@ -99,7 +99,7 @@ class Labyrint {
         //Kjører finnUtvei(som starter gaa()) fra den angitte posisjonen(da starter rekursive løsningen)
         //setter her forrige ruten, som start ruten og kaller gaa
 
-        this.hentRute(r,k).finnUtvei(this.hentRute(r,k),"START ");
+        this.hentRute(r,k).finnUtvei(this.hentRute(r,k),"");
         //Lager en tempListe som returneres, mens static listen resettes.
         Lenkeliste<String> temp = new Lenkeliste<>();
         for (String losning : losninger){

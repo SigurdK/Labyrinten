@@ -2,7 +2,6 @@ public class HvitRute extends Rute {
 
     HvitRute(int kolonne, int rad){
         super(kolonne,rad);
-
     }
 
     @Override
@@ -21,6 +20,7 @@ public class HvitRute extends Rute {
     void gaa(Rute forrige, String v){
 
         //koden under for å se hvordan den går i labyrinten.
+        /*
         try {
             System.out.println(labyrint);
             //System.out.println("STRINGEN ER: "+v);
@@ -28,13 +28,10 @@ public class HvitRute extends Rute {
         }catch(InterruptedException e){
             System.out.println("feil");
         }
-
+        */
         this.blittGaatt = true;
         this.settForrige(forrige);
-        String kordinat = "("+kolonne + ","+rad+") -->";
-        //veien += v + " "+kordinat +" --> ";
-        //Lage en else if. og ha til slutt dersom alle rundt er gått , så backtrack eventuelt om det er en åpning.
-        //når koden kommer til en åpning lagres ruten og koden backtracker.
+        String kordinat = "("+kolonne + ", "+rad+") --> ";
 
         if (!nord.blittGatt() && this.hentForrige() != this.nord){
             //Sette nord sin forrige til denne
@@ -49,7 +46,6 @@ public class HvitRute extends Rute {
         if (!vest.blittGatt() && this.hentForrige() != this.vest){
             vest.gaa(this,v + kordinat);
         }
-        //veien = "";
 
         this.blittGaatt = false;
         this.hentForrige().settForrige(this);

@@ -28,7 +28,7 @@ public class Aapning extends HvitRute {
         }
 
         this.settForrige(forrige);
-        String apning = v+"Jeg er en apning! ("+kolonne+","+ rad+")";
+        String apning = v+"("+kolonne+", "+ rad+")";
         Labyrint.losninger.leggTil(apning);
         this.blittGaatt = false;
         this.hentForrige().settForrige(this);
