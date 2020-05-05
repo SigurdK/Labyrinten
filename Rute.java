@@ -1,3 +1,9 @@
+import java.util.*;
+
+import javafx.scene.control.Button;
+import javafx.scene.text.Font;
+import javafx.event.*;
+
 abstract class Rute extends Button{
     //referasne til labyrint objektet blir satt i les fra fil
     Labyrint labyrint;
@@ -47,6 +53,7 @@ abstract class Rute extends Button{
 
     abstract void gaa(Rute forrige, String v);
     abstract void settBlittGatt();
+    abstract void settMerke();
     public void settVeien(){
         veien = "";
     }

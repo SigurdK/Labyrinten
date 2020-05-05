@@ -2,6 +2,7 @@ public class HvitRute extends Rute {
 
     HvitRute(int kolonne, int rad){
         super(kolonne,rad);
+        setStyle("-fx-background-color: #FFFFFF");
     }
 
     @Override
@@ -19,16 +20,7 @@ public class HvitRute extends Rute {
     @Override
     void gaa(Rute forrige, String v){
 
-        //koden under for å se hvordan den går i labyrinten.
-        /*
-        try {
-            System.out.println(labyrint);
-            //System.out.println("STRINGEN ER: "+v);
-            Thread.sleep(100);
-        }catch(InterruptedException e){
-            System.out.println("feil");
-        }
-        */
+        
         this.blittGaatt = true;
         this.settForrige(forrige);
         String kordinat = "("+kolonne + ", "+rad+") --> ";
@@ -49,6 +41,9 @@ public class HvitRute extends Rute {
 
         this.blittGaatt = false;
         this.hentForrige().settForrige(this);
-
+    }
+    @Override
+    void settMerke(){
+        setStyle("-fx-background-color: #FFFFFF");
     }
 }

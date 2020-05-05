@@ -17,6 +17,10 @@ public class SortRute extends Rute {
 
     @Override
     void gaa(Rute r,String v){
-        System.out.println("Du startet på en Sort Rute.");
+        //System.out.println("Du startet på en Sort Rute.");
+    }
+    @Override
+    void settMerke(){
+        setStyle("-fx-background-color: #000000");
     }
 }

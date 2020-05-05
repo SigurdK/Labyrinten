@@ -2,6 +2,7 @@ public class Aapning extends HvitRute {
 
     Aapning(int kolonne, int rad){
         super(kolonne, rad);
+        setStyle("-fx-background-color: #FFFFFF");
     }
 
     @Override
@@ -19,19 +20,15 @@ public class Aapning extends HvitRute {
     @Override
     void gaa(Rute forrige,String v){
         this.blittGaatt = true;
-        try {
-            System.out.println(labyrint);
-            System.out.println("LØSNING!");
-            Thread.sleep(800);
-        }catch(InterruptedException e){
-            System.out.println("feil");
-        }
-
         this.settForrige(forrige);
         String apning = v+"("+kolonne+", "+ rad+")";
         Labyrint.losninger.leggTil(apning);
         this.blittGaatt = false;
         this.hentForrige().settForrige(this);
 
+    }
+    @Override
+    void settMerke(){
+        setStyle("-fx-background-color: #FFFFFF");
     }
 }

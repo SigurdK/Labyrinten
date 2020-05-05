@@ -31,6 +31,9 @@ public class Oblig7Syklisk extends Application{
     File filen = null;
     static Lenkeliste<String> utveier = new Lenkeliste<>();
 
+    int teller = 0;
+    Text tellerSomText = new Text("0");
+
     public static void main(String[] args) {
         // launch Kalles fra 'main' for å starte FX.
         launch(args);
@@ -47,8 +50,15 @@ public class Oblig7Syklisk extends Application{
 
             if (utveier.stoerrelse() == 0){
                 statusinfo.setText("Ingen utvei derfra, velg ny rute.");
+                for (int k = 0 ; k < l.antallKolonner ; k++){
+                    for (int r = 0 ; r < l.antallRader ; r++){
+                        l.hentRute(r,k).settMerke();
+                    }
+                }
             }else{
                 //Alle Løsningene ligger her i utveier, men jeg skriverbare ut den første
+                teller = 0;
+                tellerSomText.setText("1");
                 statusinfo.setText("her er losningen fra valgt rute\nDet er totalt "+ utveier.stoerrelse()+" utveier herfra");
                 losningen = l.losningStringTilTabell(utveier.hent(0),l.antallKolonner,l.antallRader);
                 for (int k = 0 ; k < l.antallKolonner ; k++){
@@ -63,10 +73,32 @@ public class Oblig7Syklisk extends Application{
             }
         }
     }
+    class TelleBehandler implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent e) {
+            if (teller == utveier.stoerrelse()-1){
+                teller = 0;
+                tellerSomText.setText("1");
+            }else{
+                teller++;
+                tellerSomText.setText(""+(teller+1));
+            }
+            losningen = l.losningStringTilTabell(utveier.hent(teller),l.antallKolonner,l.antallRader);
+            for (int k = 0 ; k < l.antallKolonner ; k++){
+                for (int r = 0 ; r < l.antallRader ; r++){
+                    if (losningen[r][k]){//Sjekker om rutene er en del av løsningen, og skifter farge basert på det.
+                        l.hentRute(r,k).settLosningMerke();
+                    }else{
+                        l.hentRute(r,k).settMerke();
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void start(Stage teater) throws Exception{
-        //her kommer GUI initialiseringen
-        //Brukeren velger fil (Labyrint) i det programmet starter:
+
 
         statusinfo = new Text("Trykk på en rute for å finne veien ut");
         statusinfo.setFont(new Font(13));
@@ -96,12 +128,23 @@ public class Oblig7Syklisk extends Application{
                 rutenett.add(ruten,k,r);
             }
         }
-        rutenett.setLayoutY(35);
+        rutenett.setLayoutY(70);
         rutenett.setLayoutX(10);
+
+        tellerSomText.setFont(new Font(15));
+        tellerSomText.setX(120);
+        tellerSomText.setY(57);
+        Button telleknapp = new Button("neste løsning");
+        telleknapp.setLayoutX(10);
+        telleknapp.setLayoutY(37);
+        TelleBehandler tell = new TelleBehandler();
+        telleknapp.setOnAction(tell);
 
         Pane kulisser = new Pane();
         kulisser.getChildren().add(statusinfo);
         kulisser.getChildren().add(rutenett);
+        kulisser.getChildren().add(tellerSomText);
+        kulisser.getChildren().add(telleknapp);
 
         Scene scene = new Scene(kulisser);
         teater.setTitle("Labyrint Oblig 7");
