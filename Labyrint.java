@@ -127,4 +127,16 @@ class Labyrint {
         }
         return utskrift;
     }
+    //Metode for å gjøre løsningn om til et boolean rutenett:
+    static boolean[][] losningStringTilTabell(String losningString, int bredde, int hoyde) {
+        boolean[][] losning = new boolean[hoyde][bredde];
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile("\\(([0-9]+),([0-9]+)\\)");
+        java.util.regex.Matcher m = p.matcher(losningString.replaceAll("\\s",""));
+        while (m.find()) {
+            int x = Integer.parseInt(m.group(1));
+            int y = Integer.parseInt(m.group(2));
+            losning[y][x] = true;
+        }
+        return losning;
+    }
 }

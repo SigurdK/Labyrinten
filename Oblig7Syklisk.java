@@ -23,7 +23,7 @@ import java.io.FileNotFoundException;
 * løsningen konverteres til en booelan ruteneett. Dette rutetnettet loopes gjennom sammen med labyrinten.
 */
 
-public class Oblig7 extends Application{
+public class Oblig7Syklisk extends Application{
     //Initialisere brett variable og statusInfo Tesxt osv
     Text statusinfo;
     Labyrint l = null;

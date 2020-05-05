@@ -64,4 +64,7 @@ abstract class Rute {
     public void finnUtvei(Rute forrige, String v){
         gaa(forrige, v);
     }
+    void settLosningMerke(){
+        
+    }
 }
