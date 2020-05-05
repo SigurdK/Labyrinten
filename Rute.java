@@ -1,4 +1,4 @@
-abstract class Rute {
+abstract class Rute extends Button{
     //referasne til labyrint objektet blir satt i les fra fil
     Labyrint labyrint;
     //sette sin rutens posisjon i labyrinten.
@@ -65,6 +65,7 @@ abstract class Rute {
         gaa(forrige, v);
     }
     void settLosningMerke(){
-        
+        setStyle("-fx-background-color: #FF6347");
+
     }
 }
