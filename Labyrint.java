@@ -23,37 +23,31 @@ class Labyrint {
     }
 
     static Labyrint leseFil(File filen) throws Exception{
-        Scanner fil = new Scanner(filen);
         //Leser inn antall rader og kolonner fra første linje i filene (rad,kolonne)
+        Scanner fil = new Scanner(filen);
         antallRader =  fil.nextInt();
         antallKolonner = fil.nextInt();
-
         Rute[][] array = new Rute[antallRader][antallKolonner];
         fil.nextLine();
+
         //oppretter en 2D array som skal sendes til Labyrint konstruktøren
-        int rad = 0;
-        int kolonne = 0;
-        while (rad < antallRader){
-            //Vet at denne string linjen er antallKolonner lang:
+        for (int rad = 0 ; rad < antallRader; rad++){
             String[] linje = fil.nextLine().split("");
-            //leser inn om objektene er sorte eller hvite ruter basert på . (hvit) og # (sort)
             for (int i = 0 ; i < antallKolonner; i++){
                 if (linje[i].equals(".")){
                     //Sjekker om objektet er på kanten av labyrintetn (aapning)
-                    HvitRute nyRute = new HvitRute(kolonne, rad);
-                    if (sjekkOmAapning(rad,kolonne)){
-                        Aapning aapning = new Aapning(kolonne,rad);
-                        array[rad][kolonne] = aapning;
-                    }else{array[rad][kolonne] = nyRute;}
+                    if (sjekkOmAapning(rad,i)){
+                        Aapning aapning = new Aapning(i,rad);
+                        array[rad][i] = aapning;
+                    }else{
+                        HvitRute nyRute = new HvitRute(i, rad);
+                        array[rad][i] = nyRute;}
 
                 }else if (linje[i].equals("#")){
-                    SortRute nyRute = new SortRute(kolonne, rad);
-                    array[rad][kolonne] = nyRute;
+                    SortRute nyRute = new SortRute(i, rad);
+                    array[rad][i] = nyRute;
                 }
-                kolonne++;
             }
-            rad ++;
-            kolonne = 0;
         }
         //Oppretter Labyrint objektet
         Labyrint labyrinten = new Labyrint(antallRader,antallKolonner,array);
